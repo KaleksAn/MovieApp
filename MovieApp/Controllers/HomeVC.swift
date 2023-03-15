@@ -57,7 +57,7 @@ extension HomeVC: UITableViewDelegate {
 extension HomeVC: UITableViewDataSource {
     
     func numberOfSections(in tableView: UITableView) -> Int {
-        20
+        5
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
