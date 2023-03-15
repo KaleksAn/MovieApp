@@ -27,6 +27,9 @@ class HomeVC: UIViewController {
         
         let mainImageView = HeroHeaderUIView(frame: CGRect(x: 0, y: 0, width: view.bounds.width, height: 450))
         tableView.tableHeaderView = mainImageView
+        
+        configureNavBar()
+        
     }
     
     override func viewDidLayoutSubviews() {
@@ -35,6 +38,17 @@ class HomeVC: UIViewController {
         tableView.frame = view.bounds
     }
 
+    
+    private func configureNavBar() {
+        
+        navigationItem.rightBarButtonItems = [
+            UIBarButtonItem(image: UIImage(systemName: "person"), style: .done, target: self, action: nil),
+            UIBarButtonItem(image: UIImage(systemName: "play.rectangle"), style: .done, target: self, action: nil)
+        ]
+        
+        navigationController?.navigationBar.tintColor = .white
+        
+    }
     
 
 }
@@ -49,6 +63,12 @@ extension HomeVC: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         40
+    }
+    
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        let defaultOffset = view.safeAreaInsets.top
+        let offset = scrollView.contentOffset.y + defaultOffset
+        navigationController?.navigationBar.transform = .init(translationX: 0, y: min(0, -offset))
     }
     
 }
