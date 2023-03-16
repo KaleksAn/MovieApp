@@ -9,6 +9,8 @@ import UIKit
 
 class HomeVC: UIViewController {
     
+    let sectionTitles = ["Популярные фильмы", "Топ", "Топ TV", "Скоро", "Топ рейтинг"]
+    
     private let tableView: UITableView = {
         let table = UITableView(frame: .zero, style: .grouped)
         table.register(CustomTableViewCell.self, forCellReuseIdentifier: CustomTableViewCell.identifier)
@@ -19,15 +21,9 @@ class HomeVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        view.backgroundColor = .systemBackground
-        view.addSubview(tableView)
-        
-        tableView.dataSource = self
-        tableView.delegate = self
-        
-        let mainImageView = HeroHeaderUIView(frame: CGRect(x: 0, y: 0, width: view.bounds.width, height: 450))
-        tableView.tableHeaderView = mainImageView
-        
+       // view.backgroundColor = .systemBackground
+        setupViews()
+        setupDelegates()
         configureNavBar()
         
     }
@@ -37,7 +33,19 @@ class HomeVC: UIViewController {
         
         tableView.frame = view.bounds
     }
-
+    
+    private func setupViews() {
+        view.addSubview(tableView)
+        
+        //MARK: - Setup header view for tableView
+        let mainImageView = HeroHeaderUIView(frame: CGRect(x: 0, y: 0, width: view.bounds.width, height: 450))
+        tableView.tableHeaderView = mainImageView
+    }
+    
+    private func setupDelegates() {
+        tableView.dataSource = self
+        tableView.delegate = self
+    }
     
     private func configureNavBar() {
         
@@ -45,7 +53,6 @@ class HomeVC: UIViewController {
             UIBarButtonItem(image: UIImage(systemName: "person"), style: .done, target: self, action: nil),
             UIBarButtonItem(image: UIImage(systemName: "play.rectangle"), style: .done, target: self, action: nil)
         ]
-        
         navigationController?.navigationBar.tintColor = .white
         
     }
@@ -77,7 +84,7 @@ extension HomeVC: UITableViewDelegate {
 extension HomeVC: UITableViewDataSource {
     
     func numberOfSections(in tableView: UITableView) -> Int {
-        5
+        sectionTitles.count
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -91,5 +98,21 @@ extension HomeVC: UITableViewDataSource {
         return cell
     }
     
+    
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        return sectionTitles[section]
+    }
+    
+    func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
+        guard let header = view as? UITableViewHeaderFooterView else { return }
+        var configute = header.defaultContentConfiguration()
+        //configute.textProperties.font = .systemFont(ofSize: 18, weight: .semibold)
+        configute.textProperties.color = .white
+        configute.attributedText = NSAttributedString(string: sectionTitles[section], attributes:
+                                                        [NSAttributedString.Key.foregroundColor: UIColor.white,
+                                                         NSAttributedString.Key.font: UIFont.systemFont(ofSize: 18, weight: .semibold)])
+        header.contentConfiguration = configute
+
+    }
     
 }

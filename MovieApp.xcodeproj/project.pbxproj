@@ -18,6 +18,7 @@
 		D87C5C9529C226E80086FFBD /* DownloadsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = D87C5C9429C226E80086FFBD /* DownloadsVC.swift */; };
 		D87C5C9C29C22DB50086FFBD /* CustomTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D87C5C9B29C22DB50086FFBD /* CustomTableViewCell.swift */; };
 		D87C5C9E29C246180086FFBD /* HeroHeaderUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D87C5C9D29C246180086FFBD /* HeroHeaderUIView.swift */; };
+		D87C5CA129C293910086FFBD /* UIStackView + Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D87C5CA029C293910086FFBD /* UIStackView + Extensions.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -34,6 +35,7 @@
 		D87C5C9429C226E80086FFBD /* DownloadsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DownloadsVC.swift; sourceTree = "<group>"; };
 		D87C5C9B29C22DB50086FFBD /* CustomTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTableViewCell.swift; sourceTree = "<group>"; };
 		D87C5C9D29C246180086FFBD /* HeroHeaderUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeroHeaderUIView.swift; sourceTree = "<group>"; };
+		D87C5CA029C293910086FFBD /* UIStackView + Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIStackView + Extensions.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -72,6 +74,7 @@
 				D87C5C9729C22D150086FFBD /* ViewModels */,
 				D87C5C9629C22D090086FFBD /* Views */,
 				D87C5C8D29C226460086FFBD /* Controllers */,
+				D87C5C9F29C2936A0086FFBD /* Extensions */,
 				D87C5C7929C219C60086FFBD /* AppDelegate.swift */,
 				D87C5C7B29C219C60086FFBD /* SceneDelegate.swift */,
 				D87C5C8229C219C70086FFBD /* Assets.xcassets */,
@@ -128,6 +131,14 @@
 			children = (
 			);
 			path = Managers;
+			sourceTree = "<group>";
+		};
+		D87C5C9F29C2936A0086FFBD /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				D87C5CA029C293910086FFBD /* UIStackView + Extensions.swift */,
+			);
+			path = Extensions;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -203,6 +214,7 @@
 				D87C5C9329C226C10086FFBD /* SearchVC.swift in Sources */,
 				D87C5C7E29C219C60086FFBD /* MainTabBarVC.swift in Sources */,
 				D87C5C9C29C22DB50086FFBD /* CustomTableViewCell.swift in Sources */,
+				D87C5CA129C293910086FFBD /* UIStackView + Extensions.swift in Sources */,
 				D87C5C9E29C246180086FFBD /* HeroHeaderUIView.swift in Sources */,
 				D87C5C8F29C226690086FFBD /* HomeVC.swift in Sources */,
 				D87C5C7A29C219C60086FFBD /* AppDelegate.swift in Sources */,
