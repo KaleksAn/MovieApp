@@ -34,18 +34,16 @@ class HeroHeaderUIView: UIView {
         imageView.clipsToBounds = true
         imageView.contentMode = .scaleAspectFill
         imageView.image = UIImage(named: "mainImage")
-        //imageView.translatesAutoresizingMaskIntoConstraints = false
+        imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
     }()
     
+    private var buttonStackView = UIStackView()
 
     override init(frame: CGRect) {
         super.init(frame: frame)
         
-        addSubview(heroImageView)
-        addGradient()
-        addSubview(playButton)
-        addSubview(downloadButton)
+        setupViews()
         applyConstraints()
     }
     
@@ -70,6 +68,15 @@ class HeroHeaderUIView: UIView {
         layer.addSublayer(gradiantLayer)
     }
 
+    private func setupViews() {
+        addSubview(heroImageView)
+        addGradient()
+        buttonStackView = UIStackView(arrangedSubviews: [playButton, downloadButton], axis: .horizontal, spacing:10)
+        buttonStackView.contentMode = .scaleAspectFill
+        //buttonStackView.alignment = .center
+        addSubview(buttonStackView)
+    }
+    
 }
 
 
@@ -77,17 +84,14 @@ extension HeroHeaderUIView {
     
     private func applyConstraints() {
         NSLayoutConstraint.activate([
-            playButton.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 70),
-            playButton.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -50),
-            playButton.widthAnchor.constraint(equalToConstant: 100)
+            
+            playButton.widthAnchor.constraint(equalToConstant: 120),
+            downloadButton.widthAnchor.constraint(equalToConstant: 120),
+            buttonStackView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 70),
+            buttonStackView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -70),
+            buttonStackView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -50),
+            buttonStackView.widthAnchor.constraint(equalToConstant: 300)
         ])
-        
-        NSLayoutConstraint.activate([
-            downloadButton.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -70),
-            downloadButton.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -50),
-            downloadButton.widthAnchor.constraint(equalToConstant: 100)
-        ])
-        
     }
     
 }
