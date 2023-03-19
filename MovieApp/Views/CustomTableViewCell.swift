@@ -10,6 +10,7 @@ import UIKit
 class CustomTableViewCell: UITableViewCell {
 
     static let identifier = "CustomCellID"
+    private var titles: [Movie] = [Movie]()
     
     private let collectionView: UICollectionView = {
         
@@ -17,7 +18,7 @@ class CustomTableViewCell: UITableViewCell {
         layout.scrollDirection = .horizontal
         layout.itemSize = CGSize(width: 140, height: 200)
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        collectionView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "cell")
+        collectionView.register(TitleCollectionVC.self, forCellWithReuseIdentifier: TitleCollectionVC.id)
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         return collectionView
     }()
@@ -39,7 +40,12 @@ class CustomTableViewCell: UITableViewCell {
         collectionView.frame = contentView.bounds
     }
    
-    
+    public func configure(with titles: [Movie]) {
+        self.titles = titles
+        DispatchQueue.main.async { [weak self] in
+            self?.collectionView.reloadData()
+        }
+    }
     
 }
 
@@ -49,13 +55,20 @@ extension CustomTableViewCell: UICollectionViewDelegate {
 
 extension CustomTableViewCell: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        10
+        titles.count
     }
     
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath)
-        cell.backgroundColor = .green
+        
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TitleCollectionVC.id, for: indexPath) as? TitleCollectionVC else {
+            return UICollectionViewCell()
+            
+        }
+        
+        guard let model = titles[indexPath.row].posterPath else { return UICollectionViewCell() }
+        
+        cell.configure(with: model)
         return cell
     }
     
