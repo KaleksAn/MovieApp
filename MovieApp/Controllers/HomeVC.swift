@@ -9,7 +9,7 @@ import UIKit
 
 class HomeVC: UIViewController {
     
-    let sectionTitles = ["Популярные фильмы", "Топ", "Топ TV", "Скоро", "Топ рейтинг"]
+    let sectionTitles = ["Популярные фильмы", "Смотрят сейчас", "Топ TV", "Скоро", "Лучшие"]
     
     private let tableView: UITableView = {
         let table = UITableView(frame: .zero, style: .grouped)
@@ -25,7 +25,7 @@ class HomeVC: UIViewController {
         setupViews()
         setupDelegates()
         configureNavBar()
-        
+        getTrendingMovies()
     }
     
     override func viewDidLayoutSubviews() {
@@ -57,11 +57,16 @@ class HomeVC: UIViewController {
         
     }
     
-
+    private func getTrendingMovies() {
+        NetworkManager.shared.getTrendingMovies { _ in
+            
+        }
+    }
+    
+    
 }
 
-
-
+//MARK: - UITableViewDelegate
 extension HomeVC: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -80,7 +85,7 @@ extension HomeVC: UITableViewDelegate {
     
 }
 
-
+//MARK: - UITableViewDataSource
 extension HomeVC: UITableViewDataSource {
     
     func numberOfSections(in tableView: UITableView) -> Int {
