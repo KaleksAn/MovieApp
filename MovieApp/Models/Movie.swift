@@ -9,7 +9,7 @@ import Foundation
 
 struct MovieResponse: Codable {
     
-    let response: [Movie]
+    let results: [Movie]
 }
 
 struct Movie: Codable {

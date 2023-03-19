@@ -9,7 +9,7 @@ import UIKit
 
 class HomeVC: UIViewController {
     
-    let sectionTitles = ["Популярные фильмы", "Смотрят сейчас", "Топ TV", "Скоро", "Лучшие"]
+    let sectionTitles = ["Популярные фильмы", "Топ TV", "Смотрят сейчас", "Скоро", "Лучшие"]
     
     private let tableView: UITableView = {
         let table = UITableView(frame: .zero, style: .grouped)
@@ -58,8 +58,13 @@ class HomeVC: UIViewController {
     }
     
     private func getTrendingMovies() {
-        NetworkManager.shared.getTrendingMovies { _ in
-            
+        NetworkManager.shared.getTrendingMovies { results in
+            switch results {
+            case .success(let movies):
+                print(movies)
+            case .failure(let error):
+                print(error)
+            }
         }
     }
     
