@@ -74,7 +74,6 @@ extension UpcomingVC: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: TitleTableViewCell.id, for: indexPath) as? TitleTableViewCell else { return UITableViewCell() }
-        
         let movie = movies[indexPath.row]
         cell.configure(with: MovieViewModel(titleName: (movie.title) ?? "Unknow name", posterURL: movie.posterPath ?? ""))
         return cell
