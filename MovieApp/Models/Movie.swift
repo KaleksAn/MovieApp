@@ -14,6 +14,7 @@ struct MovieResponse: Codable {
 
 struct Movie: Codable {
     let id: Int
+    let title: String?
     let mediaType: String?
     let originalName: String?
     let originalTitle: String?
@@ -26,6 +27,7 @@ struct Movie: Codable {
     
     enum CodingKeys: String, CodingKey {
         case id
+        case title
         case mediaType = "media_type"
         case originalName = "original_name"
         case originalTitle = "original_title"
