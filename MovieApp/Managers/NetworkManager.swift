@@ -130,7 +130,28 @@ class NetworkManager {
 
     }
     
+    
+    func search(query: String, completion: @escaping (Result<[Movie], Error>) -> Void) {
+        
+        guard let query = query.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed) else {return}
+        guard let url = URL(string: "\(Constants.mainURL)3/search/movie?api_key=\(Constants.apiKey)&query=\(query)") else { return }
+        let request = URLRequest(url: url)
+        
+        URLSession.shared.dataTask(with: request) { data, _, error in
+            guard let data = data, error == nil else { return }
+            DispatchQueue.main.async {
+                do {
+                    let result = try JSONDecoder().decode(MovieResponse.self, from: data)
+                    completion(.success(result.results))
+                } catch {
+                    print(error.localizedDescription)
+                    completion(.failure(error))
+                }
+            }
+        }.resume()
+    }
+    
 }
 
 
-//https://api.themoviedb.org/3/discover/movie?api_key=<<api_key>>&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=1&with_watch_monetization_types=flatrate
+

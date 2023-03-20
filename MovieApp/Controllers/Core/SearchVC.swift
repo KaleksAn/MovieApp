@@ -44,6 +44,7 @@ class SearchVC: UIViewController {
         
         fetchDiscoverMovies()
         
+        searchController.searchResultsUpdater = self
     }
     
     private func fetchDiscoverMovies() {
@@ -87,5 +88,34 @@ extension SearchVC: UITableViewDataSource {
         return cell
     }
     
+    
+}
+
+extension SearchVC: UISearchResultsUpdating {
+    
+    
+    func updateSearchResults(for searchController: UISearchController) {
+        let searchBar = searchController.searchBar
+        
+        guard let query = searchBar.text,
+                !query.trimmingCharacters(in: .whitespaces).isEmpty,
+                query.trimmingCharacters(in: .whitespaces).count >= 3,
+              let resultsController = searchController.searchResultsController as? SearchResultsVC else { return }
+                
+        
+        
+        NetworkManager.shared.search(query: query) { result in
+            DispatchQueue.main.async {
+                switch result {
+                case .success(let movies):
+                    resultsController.movies = movies
+                    resultsController.searchResultsCollectionView.reloadData()
+                case .failure(let error):
+                    print(error.localizedDescription)
+                }
+            }
+        }
+        
+    }
     
 }
