@@ -13,7 +13,6 @@ class CustomTableViewCell: UITableViewCell {
     private var titles: [Movie] = [Movie]()
     
     private let collectionView: UICollectionView = {
-        
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
         layout.itemSize = CGSize(width: 140, height: 200)
@@ -67,7 +66,6 @@ extension CustomTableViewCell: UICollectionViewDataSource {
         }
         
         guard let model = titles[indexPath.row].posterPath else { return UICollectionViewCell() }
-        
         cell.configure(with: model)
         return cell
     }
