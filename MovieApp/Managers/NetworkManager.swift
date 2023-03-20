@@ -21,13 +21,14 @@ class NetworkManager {
 
         URLSession.shared.dataTask(with: request) { data, response, error in
             guard let data = data, error == nil else { return }
-            
-            do {
-                let result = try JSONDecoder().decode(MovieResponse.self, from: data)
-                completion(.success(result.results))
-            } catch {
-                print(error.localizedDescription)
-                completion(.failure(error))
+            DispatchQueue.main.async {
+                do {
+                    let result = try JSONDecoder().decode(MovieResponse.self, from: data)
+                    completion(.success(result.results))
+                } catch {
+                    print(error.localizedDescription)
+                    completion(.failure(error))
+                }
             }
         }.resume()
         
@@ -39,12 +40,14 @@ class NetworkManager {
         
         URLSession.shared.dataTask(with: request) { data, _, error in
             guard let data = data, error == nil else { return }
-            do {
-                let result = try JSONDecoder().decode(MovieResponse.self, from: data)
-                completion(.success(result.results))
-            } catch {
-                print(error.localizedDescription)
-                completion(.failure(error))
+            DispatchQueue.main.async {
+                do {
+                    let result = try JSONDecoder().decode(MovieResponse.self, from: data)
+                    completion(.success(result.results))
+                } catch {
+                    print(error.localizedDescription)
+                    completion(.failure(error))
+                }
             }
         }.resume()
         
@@ -57,12 +60,14 @@ class NetworkManager {
         
         URLSession.shared.dataTask(with: request) { data, _, error in
             guard let data = data, error == nil else { return }
-            do {
-                let result = try JSONDecoder().decode(MovieResponse.self, from: data)
-                completion(.success(result.results))
-            } catch {
-                print(error.localizedDescription)
-                completion(.failure(error))
+            DispatchQueue.main.async {
+                do {
+                    let result = try JSONDecoder().decode(MovieResponse.self, from: data)
+                    completion(.success(result.results))
+                } catch {
+                    print(error.localizedDescription)
+                    completion(.failure(error))
+                }
             }
         }.resume()
         
@@ -74,12 +79,14 @@ class NetworkManager {
         
         URLSession.shared.dataTask(with: request) { data, _, error in
             guard let data = data, error == nil else { return }
-            do {
-                let result = try JSONDecoder().decode(MovieResponse.self, from: data)
-                completion(.success(result.results))
-            } catch {
-                print(error.localizedDescription)
-                completion(.failure(error))
+            DispatchQueue.main.async {
+                do {
+                    let result = try JSONDecoder().decode(MovieResponse.self, from: data)
+                    completion(.success(result.results))
+                } catch {
+                    print(error.localizedDescription)
+                    completion(.failure(error))
+                }
             }
         }.resume()
          
@@ -91,12 +98,14 @@ class NetworkManager {
         
         URLSession.shared.dataTask(with: request) { data, _, error in
             guard let data = data, error == nil else { return }
-            do {
-                let result = try JSONDecoder().decode(MovieResponse.self, from: data)
-                completion(.success(result.results))
-            } catch {
-                print(error.localizedDescription)
-                completion(.failure(error))
+            DispatchQueue.main.async {
+                do {
+                    let result = try JSONDecoder().decode(MovieResponse.self, from: data)
+                    completion(.success(result.results))
+                } catch {
+                    print(error.localizedDescription)
+                    completion(.failure(error))
+                }
             }
         }.resume()
          
