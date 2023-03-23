@@ -26,23 +26,27 @@ class SearchVC: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        view.backgroundColor = .systemBackground
         
+        setupViews()
+        setupDelegates()
+        fetchDiscoverMovies()
+    }
+    
+    private func setupViews() {
+        view.backgroundColor = .systemBackground
         title = "Поиск"
         navigationController?.navigationBar.prefersLargeTitles = true
         navigationController?.navigationItem.largeTitleDisplayMode = .always
-        
+
         view.addSubview(discoverTable)
-        
-        discoverTable.delegate = self
-        discoverTable.dataSource = self
-        
-        
+                        
         navigationItem.searchController = searchController
         navigationController?.navigationBar.tintColor = .white
-        
-        fetchDiscoverMovies()
+    }
+    
+    private func setupDelegates() {
+        discoverTable.delegate = self
+        discoverTable.dataSource = self
         
         searchController.searchResultsUpdater = self
     }
@@ -102,8 +106,6 @@ extension SearchVC: UISearchResultsUpdating {
                 query.trimmingCharacters(in: .whitespaces).count >= 3,
               let resultsController = searchController.searchResultsController as? SearchResultsVC else { return }
                 
-        
-        
         NetworkManager.shared.search(query: query) { result in
             DispatchQueue.main.async {
                 switch result {

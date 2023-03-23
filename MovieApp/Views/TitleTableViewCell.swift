@@ -23,6 +23,7 @@ class TitleTableViewCell: UITableViewCell {
     
     private let titleLabel: UILabel = {
        let label = UILabel()
+        label.adjustsFontSizeToFitWidth = true
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()

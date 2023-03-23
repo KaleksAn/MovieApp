@@ -20,22 +20,27 @@ class UpcomingVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        view.backgroundColor = .systemBackground
-        title = "Скоро"
-        navigationController?.navigationBar.prefersLargeTitles = true
-        navigationController?.navigationItem.largeTitleDisplayMode = .always
-        
-        
-        view.addSubview(upcomingTable)
-        upcomingTable.delegate = self
-        upcomingTable.dataSource = self
-        
         fetchUpcoming()
+        setupDelegates()
+        setupViews()
     }
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         upcomingTable.frame = view.bounds
+    }
+    
+    private func setupViews() {
+        view.backgroundColor = .systemBackground
+        title = "Скоро"
+        navigationController?.navigationBar.prefersLargeTitles = true
+        navigationController?.navigationItem.largeTitleDisplayMode = .always
+        view.addSubview(upcomingTable)
+    }
+    
+    private func setupDelegates() {
+        upcomingTable.delegate = self
+        upcomingTable.dataSource = self
     }
     
     private func fetchUpcoming() {
