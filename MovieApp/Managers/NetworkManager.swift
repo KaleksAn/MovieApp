@@ -10,6 +10,8 @@ import Foundation
 struct Constants {
     static let apiKey = "b47a006f4fb883b986de068dbb1a36c5"
     static let mainURL = "https://api.themoviedb.org/"
+    static let youtubeKey = "AIzaSyDzx4GTUWZN9eI0spDADl5cJXKAYFXaNHE"
+    static let youtubeMainUrl = "https://youtube.googleapis.com/youtube/v3/search?"
 }
 
 class NetworkManager {
@@ -149,6 +151,26 @@ class NetworkManager {
                 }
             }
         }.resume()
+    }
+    
+    func getMovie(with query: String, completion: @escaping (Result<VideoObject, Error>) -> Void) {
+        guard let query = query.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed) else {return}
+        guard let url = URL(string: "\(Constants.youtubeMainUrl)?location=russia&q=\(query)&key=\(Constants.youtubeKey)") else { return }
+        let request = URLRequest(url: url)
+        
+        URLSession.shared.dataTask(with: request) { data, _, error in
+            guard let data = data, error == nil else { return }
+            DispatchQueue.main.async {
+                do {
+                    let result = try JSONDecoder().decode(YoutubeSearchResponse.self, from: data)
+                    completion(.success(result.items[0]))
+                } catch {
+                    print(error.localizedDescription)
+                    completion(.failure(error))
+                }
+            }
+        }.resume()
+        
     }
     
 }

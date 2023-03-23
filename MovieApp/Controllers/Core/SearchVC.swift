@@ -97,7 +97,6 @@ extension SearchVC: UITableViewDataSource {
 
 extension SearchVC: UISearchResultsUpdating {
     
-    
     func updateSearchResults(for searchController: UISearchController) {
         let searchBar = searchController.searchBar
         
