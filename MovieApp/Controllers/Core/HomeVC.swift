@@ -17,7 +17,7 @@ enum Sectios: Int {
 
 class HomeVC: UIViewController {
     
-    let sectionTitles = ["Популярные фильмы", "Топ TV", "Смотрят сейчас", "Скоро", "Лучшие"]
+    private let sectionTitles = ["Популярные фильмы", "Топ TV", "Смотрят сейчас", "Скоро", "Лучшие"]
     
     private let tableView: UITableView = {
         let table = UITableView(frame: .zero, style: .grouped)
@@ -33,6 +33,10 @@ class HomeVC: UIViewController {
         setupViews()
         setupDelegates()
         configureNavBar()
+        
+       // navigationController?.pushViewController(TitlePreviewVC(), animated: true)
+        
+        
     }
     
     override func viewDidLayoutSubviews() {
@@ -52,6 +56,8 @@ class HomeVC: UIViewController {
     private func setupDelegates() {
         tableView.dataSource = self
         tableView.delegate = self
+        
+        
     }
     
     private func configureNavBar() {
@@ -101,6 +107,8 @@ extension HomeVC: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         let cell = tableView.dequeueReusableCell(withIdentifier: CustomTableViewCell.identifier, for: indexPath) as! CustomTableViewCell
+        
+        cell.delegate = self
         
         switch indexPath.section {
         case Sectios.TrendingMovies.rawValue:
@@ -177,6 +185,20 @@ extension HomeVC: UITableViewDataSource {
                                                          NSAttributedString.Key.font: UIFont.systemFont(ofSize: 18, weight: .semibold)])
         header.contentConfiguration = configute
 
+    }
+    
+}
+
+
+extension HomeVC: CustomTableViewCellDelegate {
+    
+    func customTableViewCellDidTapCell(_ cell: CustomTableViewCell, viewModel: TitlePreviewViewModel) {
+        
+        DispatchQueue.main.async { [weak self] in
+            let vc = TitlePreviewVC()
+            vc.configure(with: viewModel)
+            self?.navigationController?.pushViewController(vc, animated: true)
+        }
     }
     
 }

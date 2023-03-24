@@ -160,7 +160,7 @@ class NetworkManager {
         
         URLSession.shared.dataTask(with: request) { data, _, error in
             guard let data = data, error == nil else { return }
-            DispatchQueue.main.async {
+           //® DispatchQueue.main.async {
                 do {
                     let result = try JSONDecoder().decode(YoutubeSearchResponse.self, from: data)
                     completion(.success(result.items[0]))
@@ -168,7 +168,7 @@ class NetworkManager {
                     print(error.localizedDescription)
                     completion(.failure(error))
                 }
-            }
+            //}
         }.resume()
         
     }

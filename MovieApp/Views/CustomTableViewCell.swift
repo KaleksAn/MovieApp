@@ -7,10 +7,16 @@
 
 import UIKit
 
+protocol CustomTableViewCellDelegate: AnyObject {
+    func customTableViewCellDidTapCell(_ cell: CustomTableViewCell, viewModel: TitlePreviewViewModel)
+}
+
 class CustomTableViewCell: UITableViewCell {
+    
+    weak var delegate: CustomTableViewCellDelegate?
 
     static let identifier = "CustomCellID"
-    private var titles: [Movie] = [Movie]()
+    private var movies: [Movie] = [Movie]()
     
     private let collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
@@ -40,7 +46,7 @@ class CustomTableViewCell: UITableViewCell {
     }
    
     public func configure(with titles: [Movie]) {
-        self.titles = titles
+        self.movies = titles
         DispatchQueue.main.async { [weak self] in
             self?.collectionView.reloadData()
         }
@@ -54,7 +60,7 @@ extension CustomTableViewCell: UICollectionViewDelegate {
 
 extension CustomTableViewCell: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        titles.count
+        movies.count
     }
     
     
@@ -65,21 +71,27 @@ extension CustomTableViewCell: UICollectionViewDataSource {
             
         }
         
-        guard let model = titles[indexPath.row].posterPath else { return UICollectionViewCell() }
+        guard let model = movies[indexPath.row].posterPath else { return UICollectionViewCell() }
         cell.configure(with: model)
         return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         collectionView.deselectItem(at: indexPath, animated: true)
-        let title = titles[indexPath.row]
+        let title = movies[indexPath.row]
         
         guard let titleName = title.title ?? title.originalTitle else { return }
         
-        NetworkManager.shared.getMovie(with: titleName + "trailer") { result in
+        NetworkManager.shared.getMovie(with: titleName + " trailer") { [weak self] result in
+            
+            guard let strongSelf = self else { return }
+            
             switch result {
             case .success(let videoElement):
-                print("ID VIDEO \(videoElement.id)")
+                let title = strongSelf.movies[indexPath.row]
+                guard let titleOverview = title.overview else { return }
+                let viewModel = TitlePreviewViewModel(title: titleName, youtubeView: videoElement, titleOverview: titleOverview)
+                self?.delegate?.customTableViewCellDidTapCell(strongSelf, viewModel: viewModel)
             case .failure(let error):
                 print(error.localizedDescription)
             }
