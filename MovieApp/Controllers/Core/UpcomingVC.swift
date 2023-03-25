@@ -67,6 +67,7 @@ extension UpcomingVC: UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         120
     }
+    
 }
 
 
@@ -84,5 +85,28 @@ extension UpcomingVC: UITableViewDataSource {
         return cell
     }
     
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
+        
+        let title = movies[indexPath.row]
+        
+        guard let titelName = title.title ?? title.originalName else { return }
+        
+        NetworkManager.shared.getMovie(with: titelName + " trailer") { [weak self] result in
+            switch result {
+            case .success(let element):
+                
+                DispatchQueue.main.async {
+                    let vc = TitlePreviewVC()
+                    vc.configure(with: TitlePreviewViewModel(title: titelName, youtubeView: element, titleOverview: title.overview ?? ""))
+                    self?.navigationController?.pushViewController(vc, animated: true)
+                }
+            case .failure(let error):
+                print(error.localizedDescription)
+            }
+        }
+        
+    }
     
 }

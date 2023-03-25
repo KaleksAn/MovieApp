@@ -17,10 +17,15 @@ enum Sectios: Int {
 
 class HomeVC: UIViewController {
     
+    private var randomTrendingmovie: Movie?
+    private var headerView: HeroHeaderUIView?
+    
     private let sectionTitles = ["Популярные фильмы", "Топ TV", "Смотрят сейчас", "Скоро", "Лучшие"]
     
     private let tableView: UITableView = {
         let table = UITableView(frame: .zero, style: .grouped)
+        table.bounces = false
+        table.separatorStyle = .none
         table.register(CustomTableViewCell.self, forCellReuseIdentifier: CustomTableViewCell.identifier)
         table.translatesAutoresizingMaskIntoConstraints = false
         return table
@@ -33,10 +38,7 @@ class HomeVC: UIViewController {
         setupViews()
         setupDelegates()
         configureNavBar()
-        
-       // navigationController?.pushViewController(TitlePreviewVC(), animated: true)
-        
-        
+        configureHeroHeaderView()
     }
     
     override func viewDidLayoutSubviews() {
@@ -49,8 +51,22 @@ class HomeVC: UIViewController {
         view.addSubview(tableView)
         
         //MARK: - Setup header view for tableView
-        let mainImageView = HeroHeaderUIView(frame: CGRect(x: 0, y: 0, width: view.bounds.width, height: 450))
-        tableView.tableHeaderView = mainImageView
+        headerView = HeroHeaderUIView(frame: CGRect(x: 0, y: 0, width: view.bounds.width, height: 450))
+        tableView.tableHeaderView = headerView
+    }
+    
+    private func configureHeroHeaderView() {
+        NetworkManager.shared.getTrendingMovies { [weak self] result in
+            switch result {
+            case .success(let movies):
+                let selectedTitle = movies.randomElement()
+                
+                self?.randomTrendingmovie = selectedTitle
+                self?.headerView?.configure(with: MovieViewModel(titleName: selectedTitle?.originalTitle ?? "", posterURL: selectedTitle?.posterPath ?? ""))
+            case .failure(let error):
+                print(error.localizedDescription)
+            }
+        }
     }
     
     private func setupDelegates() {

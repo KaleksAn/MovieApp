@@ -72,9 +72,17 @@ class HeroHeaderUIView: UIView {
         addSubview(heroImageView)
         addGradient()
         buttonStackView = UIStackView(arrangedSubviews: [playButton, downloadButton], axis: .horizontal, spacing:10)
-        buttonStackView.contentMode = .scaleAspectFill
+        buttonStackView.contentMode = .scaleAspectFit
         //buttonStackView.alignment = .center
         addSubview(buttonStackView)
+    }
+    
+    
+    func configure(with model: MovieViewModel) {
+        
+        guard let url = URL(string: "https://image.tmdb.org/t/p/w500/\(model.posterURL)") else { return }
+        
+        heroImageView.sd_setImage(with: url)
     }
     
 }

@@ -23,7 +23,8 @@ class TitlePreviewVC: UIViewController {
         label.font = .systemFont(ofSize: 18, weight: .regular)
         label.numberOfLines = 0
         label.text = "This is animatiom movie"
-         label.adjustsFontSizeToFitWidth = true
+        label.adjustsFontSizeToFitWidth = true
+        label.minimumScaleFactor = 0.5
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -69,7 +70,7 @@ class TitlePreviewVC: UIViewController {
             webView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 50),
             webView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             webView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            webView.heightAnchor.constraint(equalToConstant: 250),
+            webView.heightAnchor.constraint(equalToConstant: 300),
             
             titleLabel.topAnchor.constraint(equalTo: webView.bottomAnchor, constant: 20),
             titleLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),

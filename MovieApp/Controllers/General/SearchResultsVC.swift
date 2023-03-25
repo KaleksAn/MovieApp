@@ -7,7 +7,13 @@
 
 import UIKit
 
+protocol SearchResultsVCDelegate: AnyObject {
+    func searchVCDidTapItem(_ viewModel: TitlePreviewViewModel)
+}
+
 class SearchResultsVC: UIViewController {
+    
+    weak var delegate: SearchResultsVCDelegate?
     
     var movies: [Movie] = [Movie]()
     
@@ -58,5 +64,22 @@ extension SearchResultsVC: UICollectionViewDataSource {
         return cell
     }
     
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        collectionView.deselectItem(at: indexPath, animated: true)
+        
+        let title = movies[indexPath.row]
+        let titleName = title.title ?? " " 
+        NetworkManager.shared.getMovie(with: titleName + " trailer") { [weak self] result in
+            switch result {
+            case .success(let element):
+                self?.delegate?.searchVCDidTapItem(TitlePreviewViewModel(title: titleName, youtubeView: element, titleOverview: title.overview ?? ""))
+                
+            case .failure(let error):
+                print(error.localizedDescription)
+            }
+        }
+        
+        
+    }
     
 }
