@@ -38,7 +38,7 @@ class HomeVC: UIViewController {
         setupViews()
         setupDelegates()
         configureNavBar()
-        configureHeroHeaderView()
+        //configureHeroHeaderView()
     }
     
     override func viewDidLayoutSubviews() {
@@ -63,6 +63,9 @@ class HomeVC: UIViewController {
                 
                 self?.randomTrendingmovie = selectedTitle
                 self?.headerView?.configure(with: MovieViewModel(titleName: selectedTitle?.originalTitle ?? "", posterURL: selectedTitle?.posterPath ?? ""))
+                
+                
+                
             case .failure(let error):
                 print(error.localizedDescription)
             }
@@ -128,10 +131,16 @@ extension HomeVC: UITableViewDataSource {
         
         switch indexPath.section {
         case Sectios.TrendingMovies.rawValue:
-            NetworkManager.shared.getTrendingMovies { result in
+            NetworkManager.shared.getTrendingMovies { [weak self] result in
                 switch result {
                 case .success(let movies):
                     cell.configure(with: movies)
+                    
+                    //Set image for header view
+                    let selectedTitle = movies.randomElement()
+                    self?.randomTrendingmovie = selectedTitle
+                    self?.headerView?.configure(with: MovieViewModel(titleName: selectedTitle?.originalTitle ?? "", posterURL: selectedTitle?.posterPath ?? ""))
+                    
                 case .failure(let error):
                     print(error.localizedDescription)
                 }
